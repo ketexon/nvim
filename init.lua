@@ -46,7 +46,7 @@ opt.sessionoptions = {
 g.netrw_preview = 1  -- make preview split vertically (and open)
 g.netrw_winsize = 80 -- 80% of screen
 
-if vim.fn.has("windows") then
+if vim.fn.has("win32") > 0 then
 	vim.o.shell = 'pwsh.exe'
 	vim.o.shellxquote = ''
 	vim.o.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command '
