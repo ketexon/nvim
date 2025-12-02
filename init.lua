@@ -115,8 +115,6 @@ MiniDeps.add {
 	},
 }
 
-require "mini.sessions".setup()
-
 -- }}} PLUGINS
 
 
@@ -143,6 +141,13 @@ require "mini.completion".setup()
 
 -- WORKSPACE {{{
 local telescope_actions = require("telescope.actions")
+
+local action_state = require "telescope.actions.state"
+local function save_buffer_action(prompt_bufnr)
+  local current_picker = action_state.get_current_picker(prompt_bufnr)
+  print(current_picker:get_selection())
+end
+
 require("telescope").setup {
 	defaults = {
 		mappings = {
@@ -151,6 +156,7 @@ require("telescope").setup {
 			},
 			i = {
 				["<C-d>"] = telescope_actions.delete_buffer,
+				["<C-s>"] = save_buffer_action,
 			},
 		},
 	},
@@ -161,25 +167,31 @@ require("telescope").setup {
 g.mapleader = " "
 g.maplocalleader = " "
 
-vim.keymap.set("n", "<leader>h", vim.lsp.buf.hover, { desc = "LSP Hover" })
-vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP rename" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Diagnostics open float" })
-vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
-vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "Go to implementation " })
+keymap.set("n", "<leader>h", vim.lsp.buf.hover, { desc = "LSP Hover" })
+keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP rename" })
+keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Diagnostics open float" })
+keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
+keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "Go to implementation " })
 
-vim.keymap.set("n", "<leader>fd", vim.lsp.buf.format, { desc = "LSP Format" })
+keymap.set("n", "<leader>fd", vim.lsp.buf.format, { desc = "LSP Format" })
+
+-- Window
+keymap.set("n", "=", "<C-w>5+", { desc = "Increase size vertically" })
+keymap.set("n", "-", "<C-w>5-", { desc = "Decrease size vertically" })
+keymap.set("n", ">", "<C-w>5>", { desc = "Increase size horizontally" })
+keymap.set("n", "<", "<C-w>5<", { desc = "Decrease size horizontally" })
 
 -- WORKSPACE {{{
 local telescope_builtin = require("telescope.builtin")
 
-vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Telescope find files" })
-vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, { desc = "Telescope live grep" })
-vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Telescope buffers" })
-vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, { desc = "Telescope help tags" })
+keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Telescope find files" })
+keymap.set("n", "<leader>fg", telescope_builtin.live_grep, { desc = "Telescope live grep" })
+keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Telescope buffers" })
+keymap.set("n", "<leader>fh", telescope_builtin.help_tags, { desc = "Telescope help tags" })
 
-vim.keymap.set("n", "<leader>nn", ":Explore<CR>")
-vim.keymap.set("n", "<leader>nl", ":Lexplore<CR>")
-vim.keymap.set("n", "<leader>nr", ":Rexplore<CR>")
+keymap.set("n", "<leader>nn", ":Explore<CR>")
+keymap.set("n", "<leader>nl", ":Lexplore<CR>")
+keymap.set("n", "<leader>nr", ":Rexplore<CR>")
 -- }}} WORKSPACE
 
 -- }}} KEYBINDS
